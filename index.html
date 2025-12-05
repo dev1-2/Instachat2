@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram DMs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .time {
+            flex: 1;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .chat-header {
+            background: #000;
+            border-bottom: 1px solid #262626;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .username {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .active-status {
+            color: #8e8e8e;
+            font-size: 12px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .icon {
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .chat-container {
+            height: calc(812px - 44px - 57px - 60px);
+            background: #000;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .date-divider {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .date-text {
+            display: inline-block;
+            background: #262626;
+            color: #a8a8a8;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .message {
+            margin-bottom: 8px;
+            display: flex;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .message.received .message-bubble {
+            background: #262626;
+            color: #fff;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.sent .message-bubble {
+            background: #3797f0;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #8e8e8e;
+            margin-top: 4px;
+            padding: 0 16px;
+        }
+
+        .message.received .message-time {
+            text-align: left;
+        }
+
+        .message.sent .message-time {
+            text-align: right;
+        }
+
+        .message-input-container {
+            background: #000;
+            border-top: 1px solid #262626;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 60px;
+        }
+
+        .input-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-icon {
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .message-input {
+            flex: 1;
+            background: #262626;
+            border: 1px solid #262626;
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .message-input::placeholder {
+            color: #8e8e8e;
+        }
+
+        .send-text {
+            color: #3797f0;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="status-bar">
+            <div class="time">16:47</div>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <div class="chat-header">
+            <div class="back-btn">‹</div>
+            <div class="profile-pic">TB</div>
+            <div class="profile-info">
+                <div class="username">Tom</div>
+                <div class="active-status">Aktiv jetzt</div>
+            </div>
+            <div class="header-icons">
+                <span class="icon">📞</span>
+                <span class="icon">🎥</span>
+                <span class="icon">ℹ️</span>
+            </div>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="date-divider">
+                <span class="date-text">15. NOVEMBER 2024</span>
+            </div>
+
+            <div class="message received">
+                <div>
+                    <div class="message-bubble">Digga drop die endlich die bringt doch nichts</div>
+                    <div class="message-time">16:34</div>
+                </div>
+            </div>
+
+            <div class="message sent">
+                <div>
+                    <div class="message-bubble">Ja digga die ist voll peinlich die Hure</div>
+                    <div class="message-time">16:35</div>
+                </div>
+            </div>
+
+            <div class="message received">
+                <div>
+                    <div class="message-bubble">Wann sagst du es ihr?</div>
+                    <div class="message-time">16:36</div>
+                </div>
+            </div>
+
+            <div class="message sent">
+                <div>
+                    <div class="message-bubble">Keine Ahnung eigentlich will ich sie noch poppen davor</div>
+                    <div class="message-time">16:38</div>
+                </div>
+            </div>
+
+            <div class="message received">
+                <div>
+                    <div class="message-bubble">boa ja ich würde die direkt nehmen</div>
+                    <div class="message-time">16:39</div>
+                </div>
+            </div>
+
+            <div class="message sent">
+                <div>
+                    <div class="message-bubble">😂😂</div>
+                    <div class="message-time">16:40</div>
+                </div>
+            </div>
+
+            <div class="date-divider">
+                <span class="date-text">HEUTE</span>
+            </div>
+        </div>
+
+        <div class="message-input-container">
+            <div class="input-icons">
+                <span class="input-icon">📷</span>
+                <span class="input-icon">🎤</span>
+            </div>
+            <input type="text" class="message-input" placeholder="Nachricht...">
+            <span class="send-text">Senden</span>
+        </div>
+    </div>
+</body>
+</html>
